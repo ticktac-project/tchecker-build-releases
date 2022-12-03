@@ -1,0 +1,29 @@
+# This file is part of the TChecker-build-releases project
+# 
+# See AUTHORS and LICENSE for copyright details
+#
+# This file builds a Docker image containing an installed and ready-to-run 
+# version of TChecker.
+# Build image `tck` with command:
+#    docker build -t tck -f Dockerfile.build-container .
+# Then, run the image with command:
+#    docker run -it tck
+#
+FROM --platform=linux/amd64 ubuntu
+# Update and install TChecker dependencies
+RUN apt-get update
+RUN apt-get -y upgrade
+RUN apt-get -y install git g++ libboost-all-dev cmake doxygen flex bison
+# Building Catch2
+RUN git clone https://github.com/catchorg/Catch2.git catch2
+RUN mkdir catch2/build
+RUN cd catch2/build && cmake .. && make -j && make install
+# Cloning TChecker
+RUN git clone https://github.com/ticktac-project/tchecker.git
+# Build and install TChecker
+RUN mkdir tchecker/build
+RUN cd tchecker/build \
+    && cmake .. -DCMAKE_BUILD_TYPE=Release -DLIBTCHECKER_ENABLE_SHARED=ON \
+    && make -j5 \
+    && make doc \
+    && make install
