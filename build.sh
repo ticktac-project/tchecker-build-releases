@@ -48,7 +48,7 @@ mkdir ${INSTALL_DIR}
 
 # Build and install TChecker
 cd tchecker/build
-cmake .. --fresh -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}" -DLIBTCHECKER_ENABLE_SHARED=ON ${EXTRA_CMAKE_FLAGS}
+cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} -DLIBTCHECKER_ENABLE_SHARED=ON ${EXTRA_CMAKE_FLAGS}
 make -j5
 make doc
 make install
