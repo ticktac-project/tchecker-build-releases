@@ -39,7 +39,7 @@ git clone https://github.com/ticktac-project/tchecker.git
 
 # Build TChecker
 mkdir tchecker/build
-./build.sh "${OUTPUT_DIR}" "-DCMAKE_PREFIX_PATH=${BISON_PATH}"
+./build.sh "${OUTPUT_DIR}" "--fresh -DCMAKE_PREFIX_PATH=${BISON_PATH}"
 
 # Clean
 rm -rf "${BUILD_DIR}"
