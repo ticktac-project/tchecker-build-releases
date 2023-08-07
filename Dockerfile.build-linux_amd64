@@ -2,13 +2,19 @@
 # 
 # See AUTHORS and LICENSE for copyright details
 #
-FROM --platform=linux/amd64 ubuntu
+FROM --platform=linux/amd64 ubuntu:lunar
+# Dependencies
+ARG LIBBOOST_VERSION=1.81
+ARG CATCH2_VERSION=v3.2.0
+ARG CATCH2_REPOSITORY=https://github.com/catchorg/Catch2.git
 # Update and install TChecker dependencies
 RUN apt-get update
 RUN apt-get -y upgrade
-RUN apt-get -y install git g++ libboost-all-dev cmake doxygen flex bison
+RUN apt-get -y install git g++ cmake doxygen flex bison \
+    libboost${LIBBOOST_VERSION}-dev  \
+    libboost-json${LIBBOOST_VERSION}-dev
 # Building Catch2
-RUN git clone https://github.com/catchorg/Catch2.git catch2
+RUN git clone --branch ${CATCH2_VERSION} ${CATCH2_REPOSITORY} catch2
 RUN mkdir catch2/build
 RUN cd catch2/build && cmake .. && make -j && make install
 # Cloning TChecker
